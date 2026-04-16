@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
+import { finalize, timeout } from 'rxjs';
 import { AuthService } from '../../core/services/auth';
 
 @Component({
@@ -34,14 +36,27 @@ export class Login {
     this.errorMessage = '';
     const { email, password } = this.loginForm.value;
 
-    this.authService.login(email, password).subscribe({
-      next: () => {
+    this.authService.login(email, password).pipe(
+      timeout(10000),
+      finalize(() => {
         this.isLoading = false;
+      })
+    ).subscribe({
+      next: () => {
         this.router.navigate(['/books']);
       },
       error: (err) => {
-        this.isLoading = false;
-        this.errorMessage = err.message || 'Erreur lors de la connexion. Veuillez vérifier vos identifiants.';
+        if (err instanceof HttpErrorResponse && err.status === 0) {
+          this.errorMessage = 'Serveur API indisponible. Lancez JSON Server sur le port 3000 puis réessayez.';
+          return;
+        }
+
+        if (err?.name === 'TimeoutError') {
+          this.errorMessage = 'La connexion prend trop de temps. Vérifiez que JSON Server est bien lancé.';
+          return;
+        }
+
+        this.errorMessage = err?.message || 'Erreur lors de la connexion. Veuillez vérifier vos identifiants.';
       }
     });
   }

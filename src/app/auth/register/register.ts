@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../core/services/auth';
 import { User } from '../../core/models/user.model';
 
@@ -59,7 +60,12 @@ export class Register {
       },
       error: (err) => {
         this.isLoading = false;
-        this.errorMessage = err.message || 'Erreur lors de la création du compte.';
+        if (err instanceof HttpErrorResponse && err.status === 0) {
+          this.errorMessage = 'Serveur API indisponible. Lancez JSON Server sur le port 3000 puis réessayez.';
+          return;
+        }
+
+        this.errorMessage = err?.error?.message || err?.message || 'Erreur lors de la création du compte.';
       }
     });
   }

@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { finalize } from 'rxjs';
 import { BookService } from '../../core/services/book';
 import { FavoriteService } from '../../core/services/favorite';
 import { AuthService } from '../../core/services/auth';
@@ -26,39 +27,62 @@ export class BookDetail implements OnInit {
   public bookKey: string = '';
   public coverId: number | null = null;
   public title: string = '';
+  public errorThrown: boolean = false;
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.bookKey = `/works/${id}`;
+    this.route.paramMap.subscribe((params) => {
+      const rawId = params.get('id');
+
+      if (!rawId) {
+        this.errorMessage = 'ID du livre introuvable.';
+        this.isLoading = false;
+        return;
+      }
+
+      const normalizedId = rawId
+        .replace('/works/', '')
+        .replace('.json', '')
+        .trim();
+
+      this.bookKey = `/works/${normalizedId}`;
       this.fetchBookDetails();
-    } else {
-      this.errorMessage = 'ID du livre introuvable.';
-      this.isLoading = false;
-    }
+    });
   }
 
   private fetchBookDetails(): void {
     this.isLoading = true;
-    this.bookService.getBookByKey(this.bookKey).subscribe({
-      next: (data) => {
-        this.bookDetail = data;
-        this.title = data.title;
-        // OpenLibrary's /works api often returns covers as an array of IDs
-        if (data.covers && data.covers.length > 0) {
-          this.coverId = data.covers[0];
+    this.errorMessage = '';
+    this.errorThrown = false;
+    this.bookDetail = null;
+    this.coverId = null;
+    this.title = '';
+
+    this.bookService.getBookByKey(this.bookKey)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe({
+        next: (data) => {
+          this.bookDetail = data;
+          this.title = data?.title || 'Titre indisponible';
+
+          if (Array.isArray(data?.covers) && data.covers.length > 0) {
+            this.coverId = data.covers[0];
+          }
+        },
+        error: () => {
+          this.errorMessage = 'Impossible de charger les détails du livre.';
         }
-        this.isLoading = false;
-      },
-      error: () => {
-        this.isLoading = false;
-        this.errorMessage = 'Impossible de charger les détails du livre.';
-      }
-    });
+      });
   }
 
   public get coverUrl(): string {
+    if (this.errorThrown) return this.bookService.FALLBACK_COVER_URL;
     return this.bookService.getCoverUrl(this.coverId || 0, 'L');
+  }
+
+  public handleImageError(): void {
+    this.errorThrown = true;
   }
 
   public get isFavorite(): boolean {
