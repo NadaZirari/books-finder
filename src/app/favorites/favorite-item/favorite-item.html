@@ -1,0 +1,33 @@
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-full hover:shadow-lg transition-default group">
+  <!-- Image container -->
+  <div class="relative pt-[120%] bg-gray-100 overflow-hidden">
+    <img [src]="coverUrl" [alt]="'Couverture de ' + favorite.title" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" (error)="$event.target.src='assets/no-cover.jpg'">
+    
+    <!-- Remove Badge -->
+    <button 
+      (click)="removeFavorite()" 
+      class="absolute top-3 right-3 p-2 rounded-full bg-white/90 backdrop-blur shadow-sm hover:bg-white transition-default z-10"
+      title="Retirer des favoris"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 hover:text-red-600 transition-colors" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div class="p-5 flex flex-col flex-grow">
+    <div class="flex-grow">
+      <h3 class="font-bold text-gray-900 text-lg leading-tight mb-1 line-clamp-2" [title]="favorite.title">
+        {{ favorite.title }}
+      </h3>
+      <p class="text-sm text-gray-500 mb-3 line-clamp-1">
+        {{ favorite.author }}
+      </p>
+    </div>
+    
+    <a [routerLink]="['/books/detail', bookId]" class="mt-auto flex items-center justify-center w-full py-2.5 px-4 bg-gray-50 hover:bg-indigo-50 text-indigo-600 font-medium text-sm rounded-xl transition-default border border-transparent hover:border-indigo-100">
+      Voir le détail
+    </a>
+  </div>
+</div>
