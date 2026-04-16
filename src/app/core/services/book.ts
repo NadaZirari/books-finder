@@ -17,11 +17,14 @@ export class BookService {
 
   public searchBooks(query: string, subject?: string, page: number = 1, limit: number = 10): Observable<BookSearchResponse> {
     let params: any = {
-      title: query,
       page: page.toString(),
       limit: limit.toString(),
       fields: 'key,title,author_name,first_publish_year,cover_i,language'
     };
+
+    if (query && query.trim()) {
+      params.title = query.trim();
+    }
 
     if (subject) {
       params.subject = subject;

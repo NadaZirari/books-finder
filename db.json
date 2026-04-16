@@ -34,6 +34,13 @@
       "email": "jahihixula@mailinator.com",
       "password": "Pa$$w0rd!",
       "id": "EKnaVxR9eVU"
+    },
+    {
+      "firstName": "test",
+      "lastName": "testt",
+      "email": "test@test.com",
+      "password": "nada123",
+      "id": "rtxSScFdSYc"
     }
   ],
   "favoriteBooks": [
@@ -63,19 +70,19 @@
     },
     {
       "userId": "EKnaVxR9eVU",
-      "bookKey": "/works/OL565227W",
-      "title": "Financial Management",
-      "author": "Géré par OpenLibrary",
-      "coverId": 0,
-      "id": "MKIUE6NpdiM"
-    },
-    {
-      "userId": "EKnaVxR9eVU",
       "bookKey": "/works/OL1073561W",
       "title": "The Varieties of Religious Experience",
       "author": "Géré par OpenLibrary",
       "coverId": 2415434,
       "id": "KrtFqr5pUPU"
+    },
+    {
+      "userId": "rtxSScFdSYc",
+      "bookKey": "/works/OL16819586W",
+      "title": "The storied life of A. J. Fikry",
+      "author": "Géré par OpenLibrary",
+      "coverId": 7281141,
+      "id": "khShQgLzi3Y"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
