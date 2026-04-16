@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookService } from '../../core/services/book';
 import { Book } from '../../core/models/book.model';
@@ -16,6 +16,7 @@ import { Loader } from '../../shared/loader/loader';
 })
 export class BookList implements OnInit {
   private bookService = inject(BookService);
+  private cdr = inject(ChangeDetectorRef);
 
   public books: Book[] = [];
   public isLoading: boolean = false;
@@ -65,10 +66,12 @@ export class BookList implements OnInit {
             language: doc.language
           }));
           this.isLoading = false;
+          this.cdr.detectChanges();
         },
         error: (err) => {
           this.isLoading = false;
           this.errorMessage = "Une erreur est survenue lors de la recherche des livres.";
+          this.cdr.detectChanges();
         }
       });
   }

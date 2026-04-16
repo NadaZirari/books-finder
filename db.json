@@ -52,6 +52,30 @@
       "author": "Daniel Kleppner",
       "coverId": 54475,
       "id": "tmZAkW4Nirg"
+    },
+    {
+      "userId": "EKnaVxR9eVU",
+      "bookKey": "/works/OL63996W",
+      "title": "The Alhambra",
+      "author": "Washington Irving",
+      "coverId": 8237030,
+      "id": "Bzuz5InR-jY"
+    },
+    {
+      "userId": "EKnaVxR9eVU",
+      "bookKey": "/works/OL565227W",
+      "title": "Financial Management",
+      "author": "Géré par OpenLibrary",
+      "coverId": 0,
+      "id": "MKIUE6NpdiM"
+    },
+    {
+      "userId": "EKnaVxR9eVU",
+      "bookKey": "/works/OL1073561W",
+      "title": "The Varieties of Religious Experience",
+      "author": "Géré par OpenLibrary",
+      "coverId": 2415434,
+      "id": "KrtFqr5pUPU"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

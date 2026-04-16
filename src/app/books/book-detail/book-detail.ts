@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { finalize } from 'rxjs';
@@ -20,6 +20,7 @@ export class BookDetail implements OnInit {
   public favoriteService = inject(FavoriteService);
   public authService = inject(AuthService);
   private location = inject(Location);
+  private cdr = inject(ChangeDetectorRef);
 
   public bookDetail: any = null;
   public isLoading: boolean = true;
@@ -37,6 +38,7 @@ export class BookDetail implements OnInit {
       if (!rawId) {
         this.errorMessage = 'ID du livre introuvable.';
         this.isLoading = false;
+        this.cdr.detectChanges();
         return;
       }
 
@@ -48,6 +50,7 @@ export class BookDetail implements OnInit {
       if (!normalizedId) {
         this.errorMessage = 'ID du livre invalide.';
         this.isLoading = false;
+        this.cdr.detectChanges();
         return;
       }
 
@@ -67,6 +70,7 @@ export class BookDetail implements OnInit {
     this.bookService.getBookByKey(this.bookKey)
       .pipe(finalize(() => {
         this.isLoading = false;
+        this.cdr.detectChanges();
       }))
       .subscribe({
         next: (data) => {
@@ -76,14 +80,15 @@ export class BookDetail implements OnInit {
           if (Array.isArray(data?.covers) && data.covers.length > 0) {
             this.coverId = data.covers[0];
           }
+          this.cdr.detectChanges();
         },
         error: (err) => {
           if (err?.name === 'TimeoutError') {
             this.errorMessage = 'Le service Open Library est trop lent. Réessayez dans quelques secondes.';
-            return;
+          } else {
+            this.errorMessage = 'Impossible de charger les détails du livre.';
           }
-
-          this.errorMessage = 'Impossible de charger les détails du livre.';
+          this.cdr.detectChanges();
         }
       });
   }
