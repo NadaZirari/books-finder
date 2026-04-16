@@ -1,1 +1,51 @@
-<p>pagination works!</p>
+<div class="flex items-center justify-center space-x-2 my-8" *ngIf="totalPages > 1">
+  <button 
+    (click)="goToPage(currentPage - 1)" 
+    [disabled]="currentPage === 1"
+    class="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 bg-white border border-gray-200 shadow-sm hover:bg-gray-50 hover:text-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed transition-default">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+    </svg>
+  </button>
+
+  @if (pages[0] > 1) {
+    <button (click)="goToPage(1)" class="w-10 h-10 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-600 hover:border-indigo-300 hover:text-indigo-600 transition-default">
+      1
+    </button>
+    @if (pages[0] > 2) {
+      <span class="text-gray-400 px-1">...</span>
+    }
+  }
+
+  @for (page of pages; track page) {
+    <button 
+      (click)="goToPage(page)"
+      [class.bg-indigo-600]="page === currentPage"
+      [class.text-white]="page === currentPage"
+      [class.border-indigo-600]="page === currentPage"
+      [class.bg-white]="page !== currentPage"
+      [class.text-gray-600]="page !== currentPage"
+      [class.border-gray-200]="page !== currentPage"
+      class="w-10 h-10 rounded-full text-sm font-medium border hover:border-indigo-300 hover:text-indigo-600 shadow-sm transition-default">
+      {{ page }}
+    </button>
+  }
+
+  @if (pages[pages.length - 1] < totalPages) {
+    @if (pages[pages.length - 1] < totalPages - 1) {
+      <span class="text-gray-400 px-1">...</span>
+    }
+    <button (click)="goToPage(totalPages)" class="w-10 h-10 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-600 hover:border-indigo-300 hover:text-indigo-600 transition-default">
+      {{ totalPages }}
+    </button>
+  }
+
+  <button 
+    (click)="goToPage(currentPage + 1)" 
+    [disabled]="currentPage === totalPages"
+    class="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 bg-white border border-gray-200 shadow-sm hover:bg-gray-50 hover:text-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed transition-default">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+    </svg>
+  </button>
+</div>
