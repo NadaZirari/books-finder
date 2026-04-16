@@ -27,5 +27,18 @@
     <button [routerLink]="['/books/detail', bookId]" class="mt-auto w-full py-2 border border-blue-500 text-blue-500 hover:bg-blue-50 font-medium text-sm rounded bg-white transition-colors">
       Voir le détail
     </button>
+
+    @if (authService.isLoggedIn$ | async) {
+      <button
+        type="button"
+        (click)="toggleFavorite()"
+        class="mt-2 w-full py-2 border font-medium text-sm rounded transition-colors"
+        [ngClass]="isFavorite
+          ? 'border-red-500 text-red-600 bg-red-50 hover:bg-red-100'
+          : 'border-indigo-500 text-indigo-600 bg-white hover:bg-indigo-50'"
+      >
+        {{ isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris' }}
+      </button>
+    }
   </div>
 </div>

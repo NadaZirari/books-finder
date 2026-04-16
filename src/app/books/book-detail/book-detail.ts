@@ -44,6 +44,12 @@ export class BookDetail implements OnInit {
         .replace('.json', '')
         .trim();
 
+      if (!normalizedId) {
+        this.errorMessage = 'ID du livre invalide.';
+        this.isLoading = false;
+        return;
+      }
+
       this.bookKey = `/works/${normalizedId}`;
       this.fetchBookDetails();
     });
@@ -70,7 +76,12 @@ export class BookDetail implements OnInit {
             this.coverId = data.covers[0];
           }
         },
-        error: () => {
+        error: (err) => {
+          if (err?.name === 'TimeoutError') {
+            this.errorMessage = 'Le service Open Library est trop lent. Réessayez dans quelques secondes.';
+            return;
+          }
+
           this.errorMessage = 'Impossible de charger les détails du livre.';
         }
       });

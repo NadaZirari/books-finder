@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, timeout } from 'rxjs';
 import { BookSearchResponse } from '../models/book.model';
 
 @Injectable({
@@ -31,7 +31,13 @@ export class BookService {
   }
 
   public getBookByKey(key: string): Observable<any> {
-    return this.http.get<any>(`${this.worksUrl}${key}.json`);
+    const sanitizedKey = key
+      .replace('.json', '')
+      .trim();
+
+    return this.http.get<any>(`${this.worksUrl}${sanitizedKey}.json`).pipe(
+      timeout(10000)
+    );
   }
 
   public getCoverUrl(coverId: number | undefined | null, size: 'S' | 'M' | 'L' = 'M'): string {
