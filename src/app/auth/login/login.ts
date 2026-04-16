@@ -25,6 +25,7 @@ export class Login {
 
   public errorMessage: string = '';
   public isLoading: boolean = false;
+  private loadingGuardTimer: ReturnType<typeof setTimeout> | null = null;
 
   public onSubmit(): void {
     if (this.loginForm.invalid) {
@@ -36,10 +37,13 @@ export class Login {
     this.errorMessage = '';
     const { email, password } = this.loginForm.value;
 
+    this.startLoadingGuard();
+
     this.authService.login(email, password).pipe(
       timeout(10000),
       finalize(() => {
         this.isLoading = false;
+        this.clearLoadingGuard();
       })
     ).subscribe({
       next: () => {
@@ -59,5 +63,23 @@ export class Login {
         this.errorMessage = err?.message || 'Erreur lors de la connexion. Veuillez vérifier vos identifiants.';
       }
     });
+  }
+
+  private startLoadingGuard(): void {
+    this.clearLoadingGuard();
+    this.loadingGuardTimer = setTimeout(() => {
+      // Fallback UI: avoid infinite spinner if the HTTP observable never resolves.
+      if (this.isLoading) {
+        this.errorMessage = 'La connexion prend trop de temps. Réessayez.';
+        this.isLoading = false;
+      }
+    }, 12000);
+  }
+
+  private clearLoadingGuard(): void {
+    if (this.loadingGuardTimer) {
+      clearTimeout(this.loadingGuardTimer);
+      this.loadingGuardTimer = null;
+    }
   }
 }

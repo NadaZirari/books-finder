@@ -51,4 +51,8 @@ export class FavoriteService {
   public isFavorite(bookKey: string): boolean {
     return this.favoritesSubject.value.some(f => f.bookKey === bookKey);
   }
+
+  public getFavoriteByBookKey(bookKey: string): FavoriteBook | undefined {
+    return this.favoritesSubject.value.find(f => f.bookKey === bookKey);
+  }
 }

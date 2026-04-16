@@ -21,6 +21,7 @@ export class BookItem {
   public authService = inject(AuthService);
 
   public errorThrown = false;
+  private favoriteOverride: boolean | null = null;
 
   public get coverUrl(): string {
     if (this.errorThrown) return this.bookService.FALLBACK_COVER_URL;
@@ -37,6 +38,7 @@ export class BookItem {
 
   public get isFavorite(): boolean {
     if (!this.book?.key) return false;
+    if (this.favoriteOverride !== null) return this.favoriteOverride;
     return this.favoriteService.isFavorite(this.book.key);
   }
 
@@ -46,18 +48,34 @@ export class BookItem {
     if (!user || (!user.id && user.id !== 0)) return;
 
     if (this.isFavorite) {
-      const fav = this.favoriteService['favoritesSubject'].value.find(f => f.bookKey === this.book.key);
+      const fav = this.favoriteService.getFavoriteByBookKey(this.book.key);
       if (fav && fav.id) {
-        this.favoriteService.removeFavorite(fav.id).subscribe();
+        this.favoriteOverride = false;
+        this.favoriteService.removeFavorite(fav.id).subscribe({
+          next: () => {
+            this.favoriteOverride = null;
+          },
+          error: () => {
+            this.favoriteOverride = null;
+          }
+        });
       }
     } else {
+      this.favoriteOverride = true;
       this.favoriteService.addFavorite({
         userId: user.id as number,
         bookKey: this.book.key,
         title: this.book.title || 'Inconnu',
         author: (this.book.authorName && this.book.authorName.length > 0) ? this.book.authorName[0] : 'Inconnu',
         coverId: this.book.coverId || 0
-      }).subscribe();
+      }).subscribe({
+        next: () => {
+          this.favoriteOverride = null;
+        },
+        error: () => {
+          this.favoriteOverride = null;
+        }
+      });
     }
   }
 }

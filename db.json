@@ -20,8 +20,39 @@
       "email": "vejew@mailinator.com",
       "password": "Pa$$w0rd!",
       "id": "AoFtkJYd_TY"
+    },
+    {
+      "firstName": "Hannah",
+      "lastName": "Day",
+      "email": "dogedygo@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "id": "_WSHN61UxaI"
+    },
+    {
+      "firstName": "Dexter",
+      "lastName": "Ellison",
+      "email": "jahihixula@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "id": "EKnaVxR9eVU"
     }
   ],
-  "favoriteBooks": [],
+  "favoriteBooks": [
+    {
+      "userId": "EKnaVxR9eVU",
+      "bookKey": "/works/OL27477543W",
+      "title": "Angular Essentials",
+      "author": "Dhananjay Kumar",
+      "coverId": 13815624,
+      "id": "bqTOtFag5XA"
+    },
+    {
+      "userId": "EKnaVxR9eVU",
+      "bookKey": "/works/OL5096257W",
+      "title": "An introduction to mechanics",
+      "author": "Daniel Kleppner",
+      "coverId": 54475,
+      "id": "tmZAkW4Nirg"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

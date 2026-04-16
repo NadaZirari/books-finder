@@ -28,6 +28,7 @@ export class BookDetail implements OnInit {
   public coverId: number | null = null;
   public title: string = '';
   public errorThrown: boolean = false;
+  private favoriteOverride: boolean | null = null;
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
@@ -97,6 +98,7 @@ export class BookDetail implements OnInit {
   }
 
   public get isFavorite(): boolean {
+    if (this.favoriteOverride !== null) return this.favoriteOverride;
     return this.favoriteService.isFavorite(this.bookKey);
   }
 
@@ -105,9 +107,17 @@ export class BookDetail implements OnInit {
     if (!user || (!user.id && user.id !== 0)) return;
 
     if (this.isFavorite) {
-      const fav = this.favoriteService['favoritesSubject'].value.find(f => f.bookKey === this.bookKey);
+      const fav = this.favoriteService.getFavoriteByBookKey(this.bookKey);
       if (fav && fav.id) {
-        this.favoriteService.removeFavorite(fav.id).subscribe();
+        this.favoriteOverride = false;
+        this.favoriteService.removeFavorite(fav.id).subscribe({
+          next: () => {
+            this.favoriteOverride = null;
+          },
+          error: () => {
+            this.favoriteOverride = null;
+          }
+        });
       }
     } else {
       // Author info is sometimes nested or simple string in the /works endpoint
@@ -117,13 +127,21 @@ export class BookDetail implements OnInit {
          authorName = this.bookDetail.authors[0].author?.key ? 'Géré par OpenLibrary' : 'Auteur inconnu';
       }
 
+      this.favoriteOverride = true;
       this.favoriteService.addFavorite({
         userId: user.id as number,
         bookKey: this.bookKey,
         title: this.title,
         author: authorName,
         coverId: this.coverId || 0
-      }).subscribe();
+      }).subscribe({
+        next: () => {
+          this.favoriteOverride = null;
+        },
+        error: () => {
+          this.favoriteOverride = null;
+        }
+      });
     }
   }
 
