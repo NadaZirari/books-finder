@@ -1,7 +1,7 @@
 <div class="bg-white rounded-lg shadow-sm flex flex-col h-full border border-gray-100 overflow-hidden relative">
   <!-- Image container -->
   <div class="flex justify-center bg-gray-50 p-4 min-h-[300px]">
-    <img [src]="coverUrl" [alt]="'Couverture de ' + book.title" class="max-h-64 object-contain shadow-sm" loading="lazy" (error)="$event.target.src='assets/no-cover.jpg'">
+    <img [src]="coverUrl" [alt]="'Couverture de ' + book.title" class="max-h-64 object-contain shadow-sm" loading="lazy" (error)="handleImageError()">
   </div>
 
   <!-- Content -->

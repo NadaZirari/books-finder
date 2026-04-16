@@ -20,8 +20,15 @@ export class BookItem {
   public favoriteService = inject(FavoriteService);
   public authService = inject(AuthService);
 
+  public errorThrown = false;
+
   public get coverUrl(): string {
+    if (this.errorThrown) return this.bookService.FALLBACK_COVER_URL;
     return this.bookService.getCoverUrl(this.book?.coverId || 0, 'M');
+  }
+
+  public handleImageError(): void {
+    this.errorThrown = true;
   }
 
   public get bookId(): string {

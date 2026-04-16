@@ -11,6 +11,8 @@ export class BookService {
   private searchUrl = 'https://openlibrary.org/search.json';
   private worksUrl = 'https://openlibrary.org'; // E.g., /works/OL45804W.json
 
+  public readonly FALLBACK_COVER_URL = 'https://placehold.co/400x600/e2e8f0/475569?text=Couverture+Indisponible';
+
   constructor() {}
 
   public searchBooks(query: string, subject?: string, page: number = 1, limit: number = 10): Observable<BookSearchResponse> {
@@ -32,8 +34,8 @@ export class BookService {
     return this.http.get<any>(`${this.worksUrl}${key}.json`);
   }
 
-  public getCoverUrl(coverId: number, size: 'S' | 'M' | 'L' = 'M'): string {
-    if (!coverId) return 'assets/no-cover.jpg';
+  public getCoverUrl(coverId: number | undefined | null, size: 'S' | 'M' | 'L' = 'M'): string {
+    if (!coverId) return this.FALLBACK_COVER_URL;
     return `https://covers.openlibrary.org/b/id/${coverId}-${size}.jpg`;
   }
 

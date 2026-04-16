@@ -1,4 +1,13 @@
 {
-  "users": [],
-  "favoriteBooks": []
+  "users": [
+    {
+      "firstName": "Bo",
+      "lastName": "Ramirez",
+      "email": "lusy@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "id": "NIU4OT71fvw"
+    }
+  ],
+  "favoriteBooks": [],
+  "$schema": "./node_modules/json-server/schema.json"
 }
