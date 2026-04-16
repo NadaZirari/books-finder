@@ -21,25 +21,24 @@ export class BookItem {
   public authService = inject(AuthService);
 
   public get coverUrl(): string {
-    return this.bookService.getCoverUrl(this.book.coverId, 'M');
+    return this.bookService.getCoverUrl(this.book?.coverId || 0, 'M');
   }
 
   public get bookId(): string {
-    return this.book.key.replace('/works/', '');
+    return this.book?.key ? this.book.key.replace('/works/', '') : '';
   }
 
   public get isFavorite(): boolean {
+    if (!this.book?.key) return false;
     return this.favoriteService.isFavorite(this.book.key);
   }
 
   public toggleFavorite(): void {
+    if (!this.book || !this.book.key) return;
     const user = this.authService.getCurrentUser();
     if (!user || (!user.id && user.id !== 0)) return;
 
     if (this.isFavorite) {
-      // Find the ID of the favorite mapped to this key to delete it
-      // But we need the DB id. It's safer to not allow removal from list if we don't have the id, 
-      // but let's implement add only or fetch the favorite object
       const fav = this.favoriteService['favoritesSubject'].value.find(f => f.bookKey === this.book.key);
       if (fav && fav.id) {
         this.favoriteService.removeFavorite(fav.id).subscribe();
@@ -48,9 +47,9 @@ export class BookItem {
       this.favoriteService.addFavorite({
         userId: user.id as number,
         bookKey: this.book.key,
-        title: this.book.title,
-        author: this.book.authorName ? this.book.authorName[0] : 'Inconnu',
-        coverId: this.book.coverId
+        title: this.book.title || 'Inconnu',
+        author: (this.book.authorName && this.book.authorName.length > 0) ? this.book.authorName[0] : 'Inconnu',
+        coverId: this.book.coverId || 0
       }).subscribe();
     }
   }

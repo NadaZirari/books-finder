@@ -58,7 +58,7 @@ export class BookDetail implements OnInit {
   }
 
   public get coverUrl(): string {
-    return this.bookService.getCoverUrl(this.coverId, 'L');
+    return this.bookService.getCoverUrl(this.coverId || 0, 'L');
   }
 
   public get isFavorite(): boolean {
@@ -87,7 +87,7 @@ export class BookDetail implements OnInit {
         bookKey: this.bookKey,
         title: this.title,
         author: authorName,
-        coverId: this.coverId || undefined
+        coverId: this.coverId || 0
       }).subscribe();
     }
   }

@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FavoriteBook } from '../../core/models/favorite.model';
+import { FavoriteBook } from '../../core/models/book.model';
 import { BookService } from '../../core/services/book';
 import { FavoriteService } from '../../core/services/favorite';
 

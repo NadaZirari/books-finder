@@ -1,51 +1,31 @@
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-full hover:shadow-lg transition-default group">
+<div class="bg-white rounded-lg shadow-sm flex flex-col h-full border border-gray-100 overflow-hidden relative">
   <!-- Image container -->
-  <div class="relative pt-[120%] bg-gray-100 overflow-hidden">
-    <img [src]="coverUrl" [alt]="'Couverture de ' + book.title" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" (error)="$event.target.src='assets/no-cover.jpg'">
-    
-    <!-- Favorite Badge -->
-    @if (authService.isLoggedIn$ | async) {
-      <button 
-        (click)="toggleFavorite()" 
-        class="absolute top-3 right-3 p-2 rounded-full bg-white/90 backdrop-blur shadow-sm hover:bg-white transition-default z-10"
-        [title]="isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-colors" [ngClass]="isFavorite ? 'text-red-500 fill-current' : 'text-gray-400'" viewBox="0 0 20 20" fill="none" stroke="currentColor">
-          <path fill-rule="evenodd" [attr.d]="isFavorite ? 'M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z' : 'M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z'" [attr.clip-rule]="isFavorite ? 'evenodd' : ''" stroke-width="2" />
-        </svg>
-      </button>
-    }
+  <div class="flex justify-center bg-gray-50 p-4 min-h-[300px]">
+    <img [src]="coverUrl" [alt]="'Couverture de ' + book.title" class="max-h-64 object-contain shadow-sm" loading="lazy" (error)="$event.target.src='assets/no-cover.jpg'">
   </div>
 
   <!-- Content -->
-  <div class="p-5 flex flex-col flex-grow">
+  <div class="p-5 flex flex-col flex-grow bg-white">
     <div class="flex-grow">
-      <h3 class="font-bold text-gray-900 text-lg leading-tight mb-1 line-clamp-2" [title]="book.title">
+      <h3 class="font-bold text-gray-800 text-lg leading-snug mb-1 line-clamp-2" [title]="book.title">
         {{ book.title }}
       </h3>
       <p class="text-sm text-gray-500 mb-3 line-clamp-1">
         {{ book.authorName ? book.authorName.join(', ') : 'Auteur inconnu' }}
       </p>
       
-      <div class="flex items-center gap-3 text-xs font-medium text-gray-400 mb-4">
+      <div class="flex items-center gap-1 text-sm text-gray-500 mb-6">
         @if (book.firstPublishYear) {
-          <span class="flex items-center gap-1 group-hover:text-indigo-500 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            {{ book.firstPublishYear }}
-          </span>
-        }
-        @if (book.language && book.language.length > 0) {
-          <span class="flex items-center gap-1 group-hover:text-purple-500 transition-colors uppercase">
-            {{ book.language[0] }}
-          </span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span>{{ book.firstPublishYear }}</span>
         }
       </div>
     </div>
     
-    <a [routerLink]="['/books/detail', bookId]" class="mt-auto flex items-center justify-center w-full py-2.5 px-4 bg-gray-50 hover:bg-indigo-50 text-indigo-600 font-medium text-sm rounded-xl transition-default border border-transparent hover:border-indigo-100">
+    <button [routerLink]="['/books/detail', bookId]" class="mt-auto w-full py-2 border border-blue-500 text-blue-500 hover:bg-blue-50 font-medium text-sm rounded bg-white transition-colors">
       Voir le détail
-    </a>
+    </button>
   </div>
 </div>
