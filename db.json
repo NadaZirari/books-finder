@@ -78,11 +78,11 @@
     },
     {
       "userId": "rtxSScFdSYc",
-      "bookKey": "/works/OL16819586W",
-      "title": "The storied life of A. J. Fikry",
-      "author": "Géré par OpenLibrary",
-      "coverId": 7281141,
-      "id": "khShQgLzi3Y"
+      "bookKey": "/works/OL19228543W",
+      "title": "Notas de Liberdade (Em Portugues do Brasil)",
+      "author": "Fred Elboni",
+      "coverId": 8430397,
+      "id": "PXB3PmaGFno"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -21,12 +21,12 @@ export class BookList implements OnInit {
   public books: Book[] = [];
   public isLoading: boolean = false;
   public errorMessage: string = '';
-  
+
   public currentPage: number = 1;
   public totalPages: number = 1;
   public totalResults: number = 0;
   private limit: number = 10;
-  
+
   private currentQuery: string = 'angular';
   private currentSubject: string = '';
 
