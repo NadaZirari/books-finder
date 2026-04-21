@@ -83,6 +83,46 @@
       "author": "Fred Elboni",
       "coverId": 8430397,
       "id": "PXB3PmaGFno"
+    },
+    {
+      "userId": "rtxSScFdSYc",
+      "bookKey": "/works/OL5953117W",
+      "title": "The unlikely voyage of Jack de Crow",
+      "author": "A. J. Mackinnon",
+      "coverId": 826168,
+      "id": "x_M2GYYWMMI"
+    },
+    {
+      "userId": "rtxSScFdSYc",
+      "bookKey": "/works/OL20147065W",
+      "title": "Monsterland Reanimated",
+      "author": "Géré par OpenLibrary",
+      "coverId": 8792285,
+      "id": "krkNiHhU8ng"
+    },
+    {
+      "userId": "NIU4OT71fvw",
+      "bookKey": "/works/OL54031W",
+      "title": "A Connecticut Yankee in King Arthur's Court",
+      "author": "Mark Twain",
+      "coverId": 9168732,
+      "id": "7katk48u55A"
+    },
+    {
+      "userId": "NIU4OT71fvw",
+      "bookKey": "/works/OL4979507W",
+      "title": "Sabre jet ace",
+      "author": "Charles Ira Coombs",
+      "coverId": 6979670,
+      "id": "HZPbuylMLfw"
+    },
+    {
+      "userId": "NIU4OT71fvw",
+      "bookKey": "/works/OL5156826W",
+      "title": "Heaven Sword & Dragon Sabre",
+      "author": "Jin Yong",
+      "coverId": 857291,
+      "id": "-EnLbGOCUB0"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
