@@ -5,15 +5,15 @@ export const routes: Routes = [
   { path: '', redirectTo: 'books', pathMatch: 'full' },
   { 
     path: 'auth', 
-    loadChildren: () => import('./auth/auth-module').then(m => m.AuthModule) 
+    loadChildren: () => import('./auth/auth.routes').then(m => m.routes) 
   },
   { 
     path: 'books', 
-    loadChildren: () => import('./books/books-module').then(m => m.BooksModule) 
+    loadChildren: () => import('./books/books.routes').then(m => m.routes) 
   },
   { 
     path: 'favorites', 
-    loadChildren: () => import('./favorites/favorites-module').then(m => m.FavoritesModule),
+    loadChildren: () => import('./favorites/favorites.routes').then(m => m.routes),
     canActivate: [authGuard]
   },
   { path: '**', redirectTo: 'books' }
